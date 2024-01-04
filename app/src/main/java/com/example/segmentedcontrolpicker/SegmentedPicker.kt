@@ -24,10 +24,15 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.segmentedcontrolpicker.ui.theme.PickerCyan
 
@@ -116,6 +122,35 @@ fun <T> SegmentedPicker(
                     content(item)
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SegmentedPickerPreview() {
+    val booksList = listOf("Atomic Habits", "Start With Why", "Think Like A Monk", "Limitless")
+    val books by remember { mutableStateOf(booksList) }
+    val selectedBook = remember { mutableStateOf("Atomic Habits") }
+
+    SegmentedPicker(
+        items = books,
+        selectedItem = selectedBook
+    ) {
+        val color = if (it == selectedBook.value) Color.White else Color.Black
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = it,
+                color = color
+            )
+            Icon(
+                imageVector = Icons.Filled.MenuBook,
+                contentDescription = "Book icon",
+                tint = color
+            )
         }
     }
 }
